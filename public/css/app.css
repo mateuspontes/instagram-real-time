@@ -91,7 +91,7 @@ a:hover {
 #aside {
 	position: fixed;
 	left: 0;
-	width: 16.640625%;
+	width: 25%;
 	z-index: 40;
   border-top: 8px solid #f34e52;
 }
@@ -219,7 +219,7 @@ a:hover {
 #imgContent img { display: block; }
 #imgContent a {
 	float: left;
-	width: 16.640625%;
+	width: 25%;
 }
 #imgContent img {
 	width: 100%;
