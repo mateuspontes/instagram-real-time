@@ -12,28 +12,8 @@
          * [Application initialization method / call for the methods being initializated in order]
          */
         init: function() {
-            this.mostRecent();
-            this.getData();
-            this.aboutInfo();
-            this.mobileNav();
-        },
-
-        /**
-         * [Interaction to open mobile navigation]
-         */
-        mobileNav: function() {
-            var btMobNav = $('#js-mobNav'),
-                nav = $('.nav');
-
-            btMobNav.on('click', function(e) {
-                e.preventDefault();
-                if( !nav.hasClass('active') ) {
-                    nav.addClass('active');
-                } else {
-                    nav.removeClass('active');
-                }
-            });
-
+          this.mostRecent();
+          this.getData();
         },
 
         /**
