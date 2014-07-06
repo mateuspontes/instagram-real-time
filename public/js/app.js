@@ -96,7 +96,7 @@
 
                 imgWrap.html(result);
             });
-        },
+        }
 
     };
 
