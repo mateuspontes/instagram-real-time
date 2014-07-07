@@ -10,25 +10,15 @@ var intervalID;
 var pub = __dirname + '/public',
     view = __dirname + '/views';
 
-var clientID = 'df8f2e7775d641ea85f6978c799c411b',
-    clientSecret = 'dc9a9281ea8c49bf973f2a98576d7934';
-/**
- * Set the configuration
- */
+var clientID = '9fedd28bb93042eead2d31377e16d374',
+    clientSecret = '53c775ce624742b0a8f6f3a4fe7b596a';
+
 Instagram.set('client_id', clientID);
 Instagram.set('client_secret', clientSecret);
-Instagram.set('callback_url', 'http://festpizza.herokuapp.com/callback');
-Instagram.set('redirect_uri', 'http://festpizza.herokuapp.com');
+Instagram.set('callback_url', 'http://goproexp.herokuapp.com/callback');
+Instagram.set('redirect_uri', 'http://goproexp.herokuapp.com');
 Instagram.set('maxSockets', 10);
 
-// Instagram.subscriptions.subscribe({
-//   object: 'tag',
-//   object_id: 'gopro',
-//   aspect: 'media',
-//   callback_url: callback_url,
-//   type: 'subscription',
-//   id: '#'
-// });
 
 Instagram.subscriptions.subscribe({ object: 'tag',  object_id: 'gopro' });
 
