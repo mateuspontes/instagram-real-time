@@ -37,14 +37,16 @@ Instagram.set('maxSockets', 10);
  * with the tag "hashtag" gopro
  * @type {String}
  */
-Instagram.subscriptions.subscribe({
-  object: 'tag',
-  object_id: 'gopro',
-  aspect: 'media',
-  callback_url: callback_url,
-  type: 'subscription',
-  id: '#'
-});
+// Instagram.subscriptions.subscribe({
+//   object: 'tag',
+//   object_id: 'gopro',
+//   aspect: 'media',
+//   callback_url: callback_url,
+//   type: 'subscription',
+//   id: '#'
+// });
+
+Instagram.subscriptions.subscribe({ object: 'tag',  object_id: 'gopro' });
 
 
 // if you want to unsubscribe to any hashtag you subscribe
