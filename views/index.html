@@ -26,6 +26,7 @@ Designed with love and for fun by: Daniel Branca (twitter: @designerdanb)
 	<script src="/js/handlebarsjs.1.0.min.js"></script>
 
   <script type="text/javascript">
+    // var socket = io.connect('http://jus.local:3000');
     var socket = io.connect('http://festpizza.herokuapp.com');
     
     socket.on('firstShow', function (data) {
@@ -53,7 +54,7 @@ Designed with love and for fun by: Daniel Branca (twitter: @designerdanb)
 
     function renderTemplate(data) {
       var lastAnimate, lastSrc, nextSrc, last,
-          current = data.data[0].images.standard_resolution.url,
+          // current = data.data[0].images.standard_resolution.url,
           w = $(document).width();
 
       var
