@@ -41,7 +41,9 @@ Designed with love and for fun by: Daniel Branca (twitter: @designerdanb)
     });
 
     socket.on('show', function(data) {
+      console.log(data);
       var url = data.show;
+      console.log(url);
       $.ajax({
         url: url,
         type: 'POST',
@@ -53,9 +55,7 @@ Designed with love and for fun by: Daniel Branca (twitter: @designerdanb)
     });
 
     function renderTemplate(data) {
-      var lastAnimate, lastSrc, nextSrc, last,
-          // current = data.data[0].images.standard_resolution.url,
-          w = $(document).width();
+      var lastAnimate, lastSrc, nextSrc, last, w = $(document).width();
 
       var
           query = data,
@@ -118,8 +118,5 @@ Designed with love and for fun by: Daniel Branca (twitter: @designerdanb)
       <img src="{{data.1.images.standard_resolution.url}}" alt="{{data.1.caption.text}}" />
     </a>
 	</script>
-
-	<!-- CALL MAIN APP SCRIPT -->
-	<!--script src="/js/app.js"></script-->
 </body>
 </html>
