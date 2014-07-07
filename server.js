@@ -28,7 +28,7 @@ var clientID = 'df8f2e7775d641ea85f6978c799c411b',
  */
 Instagram.set('client_id', clientID);
 Instagram.set('client_secret', clientSecret);
-Instagram.set('callback_url', callback_url);
+Instagram.set('callback_url', callback);
 Instagram.set('redirect_uri', callback);
 Instagram.set('maxSockets', 10);
 
