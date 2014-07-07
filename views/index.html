@@ -29,20 +29,80 @@ Designed with love and for fun by: Daniel Branca (twitter: @designerdanb)
 	<script src="/js/html5shiv.js"></script>
 	<![endif]-->
 
+  <script type="text/javascript">
+    var socket = io.connect('http://festpizza.herokuapp.com');
+    
+    socket.on('firstShow', function (data) {
+      var clean = $('imgContent').find('a').remove();
+      var query = data,
+          source = $('#firstShow-tpl').html(),
+          compiledTemplate = Handlebars.compile(source),
+          result = compiledTemplate(query),
+          imgWrap = $('#imgContent');
+
+      imgWrap.html(result);
+    });
+
+    socket.on('show', function(data) {
+      var url = data.show;
+      $.ajax({
+        url: url,
+        type: 'POST',
+        crossDomain: true,
+        dataType: 'jsonp'
+      }).done(function (data) {
+        renderTemplate(data);
+      }); 
+    });
+
+    function renderTemplate(data) {
+      var lastAnimate, lastSrc, nextSrc, last,
+          current = data.data[0].images.standard_resolution.url,
+          w = $(document).width();
+
+      var
+          query = data,
+          source = $('#mostRecent-tpl').html(),
+          compiledTemplate = Handlebars.compile(source),
+          result = compiledTemplate(query),
+          imgWrap = $('#imgContent');
+
+      imgWrap.prepend(result);
+
+      last = $('#imgContent a:first-child');
+      lastSrc = $('#imgContent a:first-child').find('img').attr('src');
+      nextSrc = $('#imgContent a:nth-child(2)').find('img').attr('src');
+
+      if( lastSrc === nextSrc ) {
+        last.remove();
+      }
+
+      last = $('#imgContent').find(':first-child').removeClass('Hvh');
+
+      if( w >= 900 ) {
+        lastAnimate = $('#imgContent').find(':nth-child(2)').addClass('animated fadeInLeft');
+      }
+
+      if( w <= 900 ) {
+        lastAnimate = $('#imgContent').find(':nth-child(1)').addClass('animated fadeInDown');
+      }
+
+      $(window).resize(function() {
+        var w = $(document).width();
+        if( w >= 900 ) {
+            lastAnimate = $('#imgContent').find(':nth-child(2)').addClass('animated fadeInLeft');
+        }
+
+        if( w <= 900 ) {
+            lastAnimate = $('#imgContent').find(':nth-child(1)').addClass('animated fadeInDown');
+        }
+      });
+    };
+  </script>
+
 </head>
 <body>
 
-	<!--[if lt IE 9]>
-      <p class="browsehappy Hfwb" style="color: black; font-size: 22px;">You are using an <strong style="color: #999;">outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience on Lollagram.</p>
-  <![endif]-->
-
-	<!--[if lt IE 9]>
-      <div class="Hdn">
-  <![endif]-->
-
-	<!--********************************
-	IMAGE WRAPPER - content
-	*********************************-->
 	<div id="imgContent" class="Hcf"></div>
 
 	<!--********************************
@@ -57,16 +117,14 @@ Designed with love and for fun by: Daniel Branca (twitter: @designerdanb)
 	</script>
 
 	<script id="mostRecent-tpl" type="text/x-handlebars-template">
-		<a href="{{data.1.link}}" title="{{data.1.caption.text}}" target="_blank" class="Hvh">
-			<img src="{{data.1.images.standard_resolution.url}}" alt="{{data.1.caption.text}}" />
-		</a>
+    <a href="#">Foto</a>
+		
 	</script>
 
 	<!-- CALL MAIN APP SCRIPT -->
-	<script src="/js/app.js"></script>
-
-	<!--[if lt IE 9]>
-    </div>
-  <![endif]-->
+  <!-- <a href="{{data.1.link}}" title="{{data.1.caption.text}}" target="_blank" class="Hvh">
+      <img src="{{data.1.images.standard_resolution.url}}" alt="{{data.1.caption.text}}" />
+    </a> -->
+	<!--script src="/js/app.js"></script-->
 </body>
 </html>

@@ -1,5 +1,5 @@
 (function() {
-    var socket = io.connect('http://festpizza.herokuapp.com');
+    var socket = io.connect('http://localhost:3000');
 
     /**
      * [Namespacing]
@@ -23,7 +23,6 @@
             var self = this;
             socket.on('show', function(data) {
                 var url = data.show;
-                console.log(url);
                 $.ajax({
                     url: url,
                     type: 'POST',

@@ -109,10 +109,9 @@ app.get('/callback', function(req, res){
  * for each new post Instagram send us the data
  */
 app.post('/callback', function(req, res) {
+  console.log(req);
     var data = req.body;
 
-    // Grab the hashtag "tag.object_id"
-    // concatenate to the url and send as a argument to the client side
     data.forEach(function(tag) {
       var url = 'https://api.instagram.com/v1/tags/' + tag.object_id + '/media/recent?client_id=CLIENT_ID';
       io.sockets.emit('show', { show: url });
