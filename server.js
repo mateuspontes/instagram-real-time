@@ -115,19 +115,9 @@ app.post('/callback', function(req, res) {
     // concatenate to the url and send as a argument to the client side
     data.forEach(function(tag) {
       var url = 'https://api.instagram.com/v1/tags/' + tag.object_id + '/media/recent?client_id=CLIENT_ID';
-      sendMessage(url);
-      console.log(url);
+      io.sockets.emit('show', { show: url });
     });
     res.end();
 });
-
-/**
- * Send the url with the hashtag to the client side
- * to do the ajax call based on the url
- * @param  {[string]} url [the url as string with the hashtag]
- */
-function sendMessage(url) {
-  io.sockets.emit('show', { show: url });
-}
 
 console.log("Listening on port " + port);
