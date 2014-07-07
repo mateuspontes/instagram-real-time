@@ -11,7 +11,7 @@ Designed with love and for fun by: Daniel Branca (twitter: @designerdanb)
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	<title>FestPizza Experiment</title>
+	<title>Instagram Experiment</title>
 
 	<!-- metas -->
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -42,7 +42,6 @@ Designed with love and for fun by: Daniel Branca (twitter: @designerdanb)
 
     socket.on('show', function(data) {
       var url = data.show;
-      console.log(url);
       $.ajax({
         url: url,
         type: 'POST',
