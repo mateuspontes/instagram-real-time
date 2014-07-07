@@ -116,7 +116,7 @@ app.post('/callback', function(req, res) {
     data.forEach(function(tag) {
       var url = 'https://api.instagram.com/v1/tags/' + tag.object_id + '/media/recent?client_id=CLIENT_ID';
       sendMessage(url);
-
+      console.log(url);
     });
     res.end();
 });
