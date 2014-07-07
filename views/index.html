@@ -114,14 +114,12 @@ Designed with love and for fun by: Daniel Branca (twitter: @designerdanb)
 	</script>
 
 	<script id="mostRecent-tpl" type="text/x-handlebars-template">
-    <a href="#">Foto</a>
-		
+    <a href="{{data.1.link}}" title="{{data.1.caption.text}}" target="_blank" class="Hvh">
+      <img src="{{data.1.images.standard_resolution.url}}" alt="{{data.1.caption.text}}" />
+    </a>
 	</script>
 
 	<!-- CALL MAIN APP SCRIPT -->
-  <!-- <a href="{{data.1.link}}" title="{{data.1.caption.text}}" target="_blank" class="Hvh">
-      <img src="{{data.1.images.standard_resolution.url}}" alt="{{data.1.caption.text}}" />
-    </a> -->
 	<!--script src="/js/app.js"></script-->
 </body>
 </html>
