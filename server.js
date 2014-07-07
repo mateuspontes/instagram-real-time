@@ -7,36 +7,20 @@ var http = require('http');
 var request = ('request');
 var intervalID;
 
-/**
- * Set the paths for your files
- * @type {[string]}
- */
 var pub = __dirname + '/public',
     view = __dirname + '/views';
 
-/**
- * Set the 'client ID' and the 'client secret' to use on Instagram
- * @type {String}
- */
 var clientID = 'df8f2e7775d641ea85f6978c799c411b',
-    clientSecret = 'dc9a9281ea8c49bf973f2a98576d7934',
-    callback = 'http://festpizza.herokuapp.com/callback',
-    callback_url = 'http://festpizza.herokuapp.com';
-
+    clientSecret = 'dc9a9281ea8c49bf973f2a98576d7934';
 /**
  * Set the configuration
  */
 Instagram.set('client_id', clientID);
 Instagram.set('client_secret', clientSecret);
-Instagram.set('callback_url', callback);
-Instagram.set('redirect_uri', callback);
+Instagram.set('callback_url', 'http://festpizza.herokuapp.com/callback');
+Instagram.set('redirect_uri', 'http://festpizza.herokuapp.com');
 Instagram.set('maxSockets', 10);
 
-/**
- * Uses the library "instagram-node-lib" to Subscribe to the Instagram API Real Time
- * with the tag "hashtag" gopro
- * @type {String}
- */
 // Instagram.subscriptions.subscribe({
 //   object: 'tag',
 //   object_id: 'gopro',
@@ -77,20 +61,10 @@ app.configure(function(){
     app.use(express.errorHandler());
 });
 
-/**
- * Render your index/view "my choice was not use jade"
- */
 app.get("/views", function(req, res){
     res.render("index");
 });
 
-// check subscriptions
-// https://api.instagram.com/v1/subscriptions?client_secret=YOUR_CLIENT_ID&client_id=YOUR_CLIENT_SECRET
-
-/**
- * On socket.io connection we get the most recent posts
- * and send to the client side via socket.emit
- */
 io.sockets.on('connection', function (socket) {
   Instagram.tags.recent({
       name: 'gopro',
@@ -100,16 +74,10 @@ io.sockets.on('connection', function (socket) {
   });
 });
 
-/**
- * Needed to receive the handshake
- */
 app.get('/callback', function(req, res){
     var handshake =  Instagram.subscriptions.handshake(req, res);
 });
 
-/**
- * for each new post Instagram send us the data
- */
 app.post('/callback', function(req, res) {
   console.log(req);
     var data = req.body;
