@@ -1,7 +1,3 @@
-<!--
-Coded for fun and with love by: Michael Lancaster (twitter: @weblancaster) & (github: @weblancaster)
-Designed with love and for fun by: Daniel Branca (twitter: @designerdanb)
--->
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
