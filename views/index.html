@@ -14,15 +14,16 @@
 
 	<!-- css -->
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,600,800' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" href="/css/app.css">
+	<link rel="stylesheet" href="http://festpizza.herokuapp.com/css/app.css">
 
 	<!-- script -->
-	<script src="/js/socket.io.min.js"></script>
-	<script src="/js/jquery.1.9.min.js"></script>
-	<script src="/js/handlebarsjs.1.0.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js"></script>
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.0.0/handlebars.min.js"></script>
 
   <script type="text/javascript">
     var socket = io.connect('http://festpizza.herokuapp.com');
+    // var socket = io.connect('http://localhost:3000');
     
     socket.on('firstShow', function (data) {
       var clean = $('imgContent').find('a').remove();
@@ -43,6 +44,7 @@
         crossDomain: true,
         dataType: 'jsonp'
       }).done(function (data) {
+        console.log(data.data[1].caption);
         renderTemplate(data);
       }); 
     });

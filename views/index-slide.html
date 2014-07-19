@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<title>FestPizza - Instagram</title>
+
+	<!-- metas -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+	<!-- css -->
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,600,800' rel='stylesheet' type='text/css'>
+  <!-- <link rel="stylesheet" href="http://festpizza.herokuapp.com/css/app.css"> -->
+
+  <!-- script -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js"></script>
+  <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.0.0/handlebars.min.js"></script>
+
+  <script type="text/javascript">
+    var socket = io.connect('http://festpizza.herokuapp.com');
+    
+    socket.on('firstShow', function (data) {
+      for (var item in data) {
+        console.log(data);
+       }
+    });
+
+    socket.on('show', function(data) {
+      var url = data.show;
+      $.ajax({
+        url: url,
+        type: 'POST',
+        crossDomain: true,
+        dataType: 'jsonp'
+      }).done(function (data) {
+        var image = data.data[1];
+        console.log(image);
+
+        $('#images').prepend('<li id="' + image.id + '"><img src="' + image.images.standard_resolution.url + '" width="150" /><p class="user">' + image.user.username + '</p></li>'
+        );
+
+        if (image.caption) {
+          $('#images #' + image.id).append('<p class="caption">' + image.caption.text + '</p>')
+        }
+
+        last = $('#images li:first-child');
+        lastSrc = $('#images li:first-child').find('img').attr('src');
+        nextSrc = $('#images li:nth-child(2)').find('img').attr('src');
+
+        if( lastSrc === nextSrc ) {
+          last.remove();
+        }
+      });
+    });
+  </script>
+
+</head>
+<body>
+  <ul id="images">
+  </ul>
+</body>
+</html>
