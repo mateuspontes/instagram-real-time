@@ -37,8 +37,8 @@ a:hover {  color: #fcbc34; text-decoration: none; }
 #slider {
   position: relative;
   text-align: left;
-  margin: 2% auto 0;
-  width: 51%;
+  margin: 4% auto 0;
+  width: 660px;
   letter-spacing: -0.05em;
   background: transparent url('/images/festpizza-calhau.jpg') no-repeat;
   background-size: 650px;
