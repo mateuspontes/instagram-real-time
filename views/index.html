@@ -4,37 +4,56 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
+  <title>FestPizza - Instagram</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- css -->
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,600,800' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/css/app.css">
 
-	<title>FestPizza - Instagram</title>
+  <!-- script -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js"></script>
+  <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 
-	<!-- metas -->
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-
-	<!-- css -->
-	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,600,800' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" href="http://festpizza.herokuapp.com/css/app.css">
-
-	<!-- script -->
-	<script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js"></script>
-	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.0.0/handlebars.min.js"></script>
+  <!-- slider -->
+  <script src="//cdn.jsdelivr.net/bxslider/4.1.1/jquery.bxslider.min.js"></script>
 
   <script type="text/javascript">
     var socket = io.connect('http://festpizza.herokuapp.com');
-    // var socket = io.connect('http://localhost:3000');
+    var slider = "";
     
     socket.on('firstShow', function (data) {
-      var clean = $('imgContent').find('a').remove();
-      var query = data,
-          source = $('#firstShow-tpl').html(),
-          compiledTemplate = Handlebars.compile(source),
-          result = compiledTemplate(query),
-          imgWrap = $('#imgContent');
-
-      imgWrap.html(result);
+      addImages(data);
+      startSlide();
     });
+
+    function startSlide() {
+      this.slider = $('#images').bxSlider({
+        mode: 'fade',
+        auto: true,
+        pause: 5000,
+        speed: 1000,
+        controls: false,
+        pager: false,
+        onSlideNext: function(next) {
+          if ($("#" + $(next[0]).attr("id")).length <= 0) {
+            slider.reloadSlider();
+            console.log("restart")
+          }
+        }
+      });
+    }
+
+    function addImages(data) {
+      $.each(data.firstShow, function(i, image) {
+        $('#images').append('<li id="' + image.id + '"><img src="' + image.images.standard_resolution.url + '" width="640" /><div class="user"><img src="' + image.user.profile_picture + '" /><h1>@' + image.user.username + '</h1></div></li>'
+        );
+        if (image.caption) {
+          $('#images #' + image.id + ' .user').append('<p class="caption">' + image.caption.text + '</p>')
+        }
+      });
+    }
 
     socket.on('show', function(data) {
       var url = data.show;
@@ -44,71 +63,32 @@
         crossDomain: true,
         dataType: 'jsonp'
       }).done(function (data) {
-        console.log(data.data[1].caption);
-        renderTemplate(data);
-      }); 
-    });
+        var image = data.data[1];
 
-    function renderTemplate(data) {
-      var lastAnimate, lastSrc, nextSrc, last, w = $(document).width();
-
-      var
-          query = data,
-          source = $('#mostRecent-tpl').html(),
-          compiledTemplate = Handlebars.compile(source),
-          result = compiledTemplate(query),
-          imgWrap = $('#imgContent');
-
-      imgWrap.prepend(result);
-
-      last = $('#imgContent a:first-child');
-      lastSrc = $('#imgContent a:first-child').find('img').attr('src');
-      nextSrc = $('#imgContent a:nth-child(2)').find('img').attr('src');
-
-      if( lastSrc === nextSrc ) {
-        last.remove();
-      }
-
-      last = $('#imgContent').find(':first-child').removeClass('Hvh');
-
-      if( w >= 900 ) {
-        lastAnimate = $('#imgContent').find(':nth-child(2)').addClass('animated fadeInLeft');
-      }
-
-      if( w <= 900 ) {
-        lastAnimate = $('#imgContent').find(':nth-child(1)').addClass('animated fadeInDown');
-      }
-
-      $(window).resize(function() {
-        var w = $(document).width();
-        if( w >= 900 ) {
-            lastAnimate = $('#imgContent').find(':nth-child(2)').addClass('animated fadeInLeft');
+        $('#images').prepend('<li id="' + image.id + '" style="display:none;"><img src="' + image.images.standard_resolution.url + '" /><div class="user"><img src="' + image.user.profile_picture + '" /><h1>@' + image.user.username + '</h1></div></li>'
+        );
+        if (image.caption) {
+          if($('#images #' + image.id).find('.caption').length <= 0)
+            $('#images #' + image.id + ' .user').append('<p class="caption">' + image.caption.text + '</p>')
         }
 
-        if( w <= 900 ) {
-            lastAnimate = $('#imgContent').find(':nth-child(1)').addClass('animated fadeInDown');
+        last = $('#images li:first-child');
+        lastSrc = $('#images li:first-child').find('img').attr('src');
+        nextSrc = $('#images li:nth-child(2)').find('img').attr('src');
+
+        if( lastSrc === nextSrc ) {
+          last.remove();
+        } else {
+          $('#images li:last-child').remove();
         }
       });
-    };
+    });
   </script>
 
 </head>
 <body>
-
-	<div id="imgContent" class="Hcf"></div>
-
-	<script id="firstShow-tpl" type="text/x-handlebars-template">
-	{{#each firstShow}}
-		<a href="{{link}}" title="{{caption.text}}" target="_blank">
-			<img src="{{images.standard_resolution.url}}" alt="{{caption.text}}" />
-		</a>
-	{{/each}}
-	</script>
-
-	<script id="mostRecent-tpl" type="text/x-handlebars-template">
-    <a href="{{data.1.link}}" title="{{data.1.caption.text}}" target="_blank" class="Hvh">
-      <img src="{{data.1.images.standard_resolution.url}}" alt="{{data.1.caption.text}}" />
-    </a>
-	</script>
+  <div id="slider">
+    <ul id="images"></ul>
+  </div>
 </body>
 </html>

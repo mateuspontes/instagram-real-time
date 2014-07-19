@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<title>FestPizza - Instagram</title>
+
+	<!-- metas -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+	<!-- css -->
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,600,800' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="http://festpizza.herokuapp.com/css/app.css">
+
+	<!-- script -->
+	<script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js"></script>
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.0.0/handlebars.min.js"></script>
+
+  <script type="text/javascript">
+    var socket = io.connect('http://festpizza.herokuapp.com');
+    // var socket = io.connect('http://localhost:3000');
+    
+    socket.on('firstShow', function (data) {
+      var clean = $('imgContent').find('a').remove();
+      var query = data,
+          source = $('#firstShow-tpl').html(),
+          compiledTemplate = Handlebars.compile(source),
+          result = compiledTemplate(query),
+          imgWrap = $('#imgContent');
+
+      imgWrap.html(result);
+    });
+
+    socket.on('show', function(data) {
+      var url = data.show;
+      $.ajax({
+        url: url,
+        type: 'POST',
+        crossDomain: true,
+        dataType: 'jsonp'
+      }).done(function (data) {
+        console.log(data.data[1].caption);
+        renderTemplate(data);
+      }); 
+    });
+
+    function renderTemplate(data) {
+      var lastAnimate, lastSrc, nextSrc, last, w = $(document).width();
+
+      var
+          query = data,
+          source = $('#mostRecent-tpl').html(),
+          compiledTemplate = Handlebars.compile(source),
+          result = compiledTemplate(query),
+          imgWrap = $('#imgContent');
+
+      imgWrap.prepend(result);
+
+      last = $('#imgContent a:first-child');
+      lastSrc = $('#imgContent a:first-child').find('img').attr('src');
+      nextSrc = $('#imgContent a:nth-child(2)').find('img').attr('src');
+
+      if( lastSrc === nextSrc ) {
+        last.remove();
+      }
+
+      last = $('#imgContent').find(':first-child').removeClass('Hvh');
+
+      if( w >= 900 ) {
+        lastAnimate = $('#imgContent').find(':nth-child(2)').addClass('animated fadeInLeft');
+      }
+
+      if( w <= 900 ) {
+        lastAnimate = $('#imgContent').find(':nth-child(1)').addClass('animated fadeInDown');
+      }
+
+      $(window).resize(function() {
+        var w = $(document).width();
+        if( w >= 900 ) {
+            lastAnimate = $('#imgContent').find(':nth-child(2)').addClass('animated fadeInLeft');
+        }
+
+        if( w <= 900 ) {
+            lastAnimate = $('#imgContent').find(':nth-child(1)').addClass('animated fadeInDown');
+        }
+      });
+    };
+  </script>
+
+</head>
+<body>
+
+	<div id="imgContent" class="Hcf"></div>
+
+	<script id="firstShow-tpl" type="text/x-handlebars-template">
+	{{#each firstShow}}
+		<a href="{{link}}" title="{{caption.text}}" target="_blank">
+			<img src="{{images.standard_resolution.url}}" alt="{{caption.text}}" />
+		</a>
+	{{/each}}
+	</script>
+
+	<script id="mostRecent-tpl" type="text/x-handlebars-template">
+    <a href="{{data.1.link}}" title="{{data.1.caption.text}}" target="_blank" class="Hvh">
+      <img src="{{data.1.images.standard_resolution.url}}" alt="{{data.1.caption.text}}" />
+    </a>
+	</script>
+</body>
+</html>

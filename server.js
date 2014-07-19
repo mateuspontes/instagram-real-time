@@ -1,6 +1,6 @@
 var express = require("express");
 var app = express();
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 80;
 var io = require('socket.io').listen(app.listen(port));
 var Instagram = require('instagram-node-lib');
 var http = require('http');
@@ -53,10 +53,6 @@ app.configure(function(){
   app.use(express.static(pub));
   app.use(express.static(view));
   app.use(express.errorHandler());
-});
-
-app.get("/views", function(req, res){
-  res.render("index");
 });
 
 app.get('/callback', function(req, res){
