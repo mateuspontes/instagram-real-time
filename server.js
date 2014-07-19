@@ -31,6 +31,8 @@ Instagram.set('redirect_uri', 'http://festpizza.herokuapp.com');
 Instagram.set('maxSockets', 10);
 
 Instagram.subscriptions.subscribe({ object: 'tag',  object_id: 'festpizza' });
+Instagram.subscriptions.subscribe({ object: 'tag',  object_id: 'festpizza2014' });
+// Instagram.subscriptions.subscribe({ object: 'tag',  object_id: 'gopro' });
 
 io.sockets.on('connection', function (socket) {
   Instagram.tags.recent({
@@ -44,7 +46,7 @@ io.sockets.on('connection', function (socket) {
 //https://api.instagram.com/v1/subscriptions?client_secret=dc9a9281ea8c49bf973f2a98576d7934&client_id=df8f2e7775d641ea85f6978c799c411b
 //curl -X DELETE 'https://api.instagram.com/v1/subscriptions?client_secret=dc9a9281ea8c49bf973f2a98576d7934&object=all&client_id=df8f2e7775d641ea85f6978c799c411b'
 // Instagram.subscriptions.unsubscribe({ id: '3668016' });
-// Instagram.subscriptions.unsubscribe({ id: '8158759' });
+// Instagram.subscriptions.unsubscribe({ id: '8746292' });
 
 app.configure(function(){
   app.use(express.bodyParser());
