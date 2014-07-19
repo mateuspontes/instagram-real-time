@@ -30,11 +30,11 @@ Instagram.set('callback_url', 'http://festpizza.herokuapp.com/callback');
 Instagram.set('redirect_uri', 'http://festpizza.herokuapp.com');
 Instagram.set('maxSockets', 10);
 
-Instagram.subscriptions.subscribe({ object: 'tag',  object_id: 'festpizza' });
+Instagram.subscriptions.subscribe({ object: 'tag',  object_id: 'pizza' });
 
 io.sockets.on('connection', function (socket) {
   Instagram.tags.recent({
-    name: 'festpizza',
+    name: 'pizza',
     complete: function(data) {
       socket.emit('firstShow', { firstShow: data });
     }
