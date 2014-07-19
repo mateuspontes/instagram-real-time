@@ -64,6 +64,7 @@
         dataType: 'jsonp'
       }).done(function (data) {
         var image = data.data[1];
+        console.log(image)
 
         $('#images').prepend('<li id="' + image.id + '" style="display:none;"><img src="' + image.images.standard_resolution.url + '" /><div class="user"><img src="' + image.user.profile_picture + '" /><h1>@' + image.user.username + '</h1></div></li>'
         );
