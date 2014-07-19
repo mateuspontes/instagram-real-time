@@ -19,10 +19,7 @@ Instagram.set('callback_url', 'http://festpizza.herokuapp.com/callback');
 Instagram.set('redirect_uri', 'http://festpizza.herokuapp.com');
 Instagram.set('maxSockets', 10);
 
-Instagram.subscriptions.subscribe({ 
-  object: 'tag', 
-  object_id: 'goprobrazil' 
-});
+Instagram.subscriptions.subscribe({ object: 'tag',  object_id: 'goprobrazil' });
 
 io.configure(function () {
   io.set("transports", [
